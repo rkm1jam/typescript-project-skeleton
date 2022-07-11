@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  cdk:
+  build:
     uses: ./.github/workflows/reusable-deploy-workflow.yml
     with:
       env_name: 'prod'
