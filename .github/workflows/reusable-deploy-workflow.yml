@@ -17,7 +17,8 @@ on:
         required: true
 
 jobs:
-  deploy:
+  build:
+    name: Build and Test
     runs-on: ubuntu-latest
     env:
       NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
@@ -32,6 +33,8 @@ jobs:
           node-version: 16
           registry-url: https://registry.npmjs.org/
       - run: npm ci
+      
+      - run: npm build
 
       - name: Unit Tests
         run: npm test 
