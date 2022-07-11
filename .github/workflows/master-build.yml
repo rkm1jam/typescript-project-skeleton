@@ -1,9 +1,9 @@
-name: Build Main Branch
+name: Build Master Branch
 
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   cdk:
