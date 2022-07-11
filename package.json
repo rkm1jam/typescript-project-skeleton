@@ -1,0 +1,33 @@
+{
+  "name": "typescript-project-skeleton",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "private": true,
+  "scripts": {
+    "build": "npx tsc",
+    "watch": "tsc -w",
+    "test": "jest",
+    "patch": "tsc && npm test test/unit && npm version patch",
+    "minor": "tsc && npm test test/unit && npm version minor",
+    "major": "tsc && npm test test/unit && npm version major",
+    "prerelease": "tsc && npm test test/unit && npm version prerelease --preid=alpha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rkm1jam/typescript-project-skeleton.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rkm1jam/typescript-project-skeleton/issues"
+  },
+  "homepage": "https://github.com/rkm1jam/typescript-project-skeleton#readme",
+  "devDependencies": {
+    "@tsconfig/recommended": "^1.0.1",
+    "typescript": "^4.7.4",
+    "@types/jest": "^28.1.4",
+    "jest": "^28.1.2"
+  }
+}

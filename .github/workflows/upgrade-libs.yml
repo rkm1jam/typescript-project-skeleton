@@ -1,0 +1,59 @@
+# Automatically Upgrade Dependencies on the default branch
+
+name: Upgrade npm dependencies
+
+on:
+  workflow_dispatch: {}
+  # schedule:
+  # # https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#schedule
+  #   - cron: '45 04 * * 1'
+
+jobs:
+  npm_upgrade:
+    runs-on: ubuntu-latest
+    #env:
+      # Personal Access Token with access to the private registry (if using a private registry)
+      #NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
+    permissions:
+      contents: read
+    outputs:
+      patch_created: ${{ steps.create_patch.outputs.patch_created }}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          # REPLACE with Personal Access Token with permission to push to this repo
+          token: ${{secrets.GITHUB_TOKEN}}
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16
+          # REPLACE with private registry if using private dependencies
+          registry-url: https://npm.pkg.github.com/
+      - run: npm ci
+      - run: npm outdated || true
+      - run: npm upgrade
+      - run: tsc
+      - run: npm test 
+      - name: Commit package.json
+        id: commit
+        run: |-
+          git config user.name "github-actions"
+          git config user.email "github-actions"
+          git add .
+          git commit -m 'chore: upgraded libs' .  || echo "::set-output name=nothing_to_upgrade::true"
+
+
+      # This will add a tag and a commit:
+      - run: npm version patch
+        # Skip this step if there were no commits
+        if: ${{ !steps.commit.outputs.nothing_to_upgrade }}
+
+      - run: git push --follow-tags
+       # Skip this step if there were no commits
+        if: ${{ !steps.commit.outputs.nothing_to_upgrade }}
+
+
+
+
+
+   
+  
