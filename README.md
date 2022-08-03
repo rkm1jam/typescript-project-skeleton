@@ -7,6 +7,7 @@ Includes basic GitHub Workflows.
 # Usage
 
 ```
+npm install
 npx tsc
 npx node dist/index.js
 ```
